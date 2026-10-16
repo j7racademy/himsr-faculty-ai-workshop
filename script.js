@@ -42,26 +42,6 @@ document.querySelectorAll('.copy-button').forEach(button => {
   });
 });
 
-const poll = document.querySelector('[data-poll="bottleneck"]');
-const pollButtons = [...poll.querySelectorAll('[data-choice]')];
-const pollResponse = poll.querySelector('.poll-response');
-let savedChoice = null;
-try { savedChoice = localStorage.getItem('himsr-workshop-bottleneck'); } catch { /* local file preview can block storage */ }
-function showChoice(choice) {
-  pollButtons.forEach(button => {
-    const selected = button.dataset.choice === choice;
-    button.classList.toggle('selected', selected);
-    button.setAttribute('aria-pressed', String(selected));
-  });
-  const label = pollButtons.find(button => button.dataset.choice === choice)?.textContent;
-  pollResponse.textContent = label ? `You chose: ${label}. Raise your hand when this option is called.` : '';
-}
-showChoice(savedChoice);
-pollButtons.forEach(button => button.addEventListener('click', () => {
-  try { localStorage.setItem('himsr-workshop-bottleneck', button.dataset.choice); } catch { /* choice still works for this visit */ }
-  showChoice(button.dataset.choice);
-}));
-
 const cueButton = document.getElementById('presenter-toggle');
 cueButton.addEventListener('click', () => {
   const active = document.body.classList.toggle('show-cues');
